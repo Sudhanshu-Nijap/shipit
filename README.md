@@ -74,8 +74,13 @@ docker login  # Use your Docker Hub credentials
 
 # Install K3s (Kubernetes)
 curl -sfL https://get.k3s.io | sh -
-sudo mkdir -p ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+# CRUCIAL: Fix Kubernetes Permissions
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 sudo chown $USER:$USER ~/.kube/config
+export KUBECONFIG=~/.kube/config
+echo "export KUBECONFIG=~/.kube/config" >> ~/.bashrc
 ```
 </details>
 
@@ -86,7 +91,9 @@ sudo chown $USER:$USER ~/.kube/config
 git clone https://github.com/Sudhanshu-Nijap/shipit.git
 cd shipit
 pip install -r requirements.txt --break-system-packages
-python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# Start in background (Keep alive after logout)
+nohup python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 > output.log 2>&1 &
 ```
 </details>
 
