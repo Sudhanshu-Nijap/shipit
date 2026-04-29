@@ -90,7 +90,7 @@ def deploy(request: DeployRequest):
         yield from stream_cmd(f"kubectl apply -f {yaml_file}")
 
         yield "\n[SUCCESS] Deployment complete!\n"
-        url = f"https://{deployment_name}.{DOMAIN}"
+        url = f"http://{deployment_name}.{DOMAIN}"
         save_deployment(deployment_name, url, "GitHub")
         yield f"[URL] {url}\n"
         yield f"[ID] {deployment_name}\n"
@@ -104,7 +104,7 @@ def deploy_zip(project_name: str = Form(...), file: UploadFile = File(...)):
         unique_id = str(uuid.uuid4())[:6]
         deployment_name = f"{project_name}-{unique_id}"
         project_path = os.path.join(BASE_DIR, deployment_name)
-        image_name = f"docker.io/{DOCKER_USERNAME}/mini-platform:{deployment_name}"
+        image_name = f"docker.io/{DOCKER_USERNAME}/{DOCKER_REPO}:{deployment_name}"
 
         yield f"Receiving zip file for {project_name}...\n"
         
@@ -139,7 +139,7 @@ def deploy_zip(project_name: str = Form(...), file: UploadFile = File(...)):
         yield from stream_cmd(f"kubectl apply -f {yaml_file}")
 
         yield "\n[SUCCESS] Deployment complete!\n"
-        url = f"https://{deployment_name}.{DOMAIN}"
+        url = f"http://{deployment_name}.{DOMAIN}"
         save_deployment(deployment_name, url, "Zip Upload")
         yield f"[URL] {url}\n"
         yield f"[ID] {deployment_name}\n"
@@ -158,7 +158,7 @@ def get_deployments():
 
 def run_redeploy(deployment_id: str):
     project_path = os.path.join(BASE_DIR, deployment_id)
-    image_name = f"docker.io/{DOCKER_USERNAME}/mini-platform:{deployment_id}"
+    image_name = f"docker.io/{DOCKER_USERNAME}/{DOCKER_REPO}:{deployment_id}"
     
     if not os.path.exists(project_path):
         yield f"❌ Error: Project folder for {deployment_id} not found!\n"
@@ -188,7 +188,7 @@ def run_redeploy(deployment_id: str):
     yield from stream_cmd(f"kubectl apply -f {yaml_file}")
 
     yield "\n[SUCCESS] Redeployment complete!\n"
-    url = f"https://{deployment_id}.{DOMAIN}"
+    url = f"http://{deployment_id}.{DOMAIN}"
     
     # update date
     save_deployment(deployment_id, url, "Auto-Webhook" if "webhook" in str(uuid.uuid4()) else "Redeploy")
