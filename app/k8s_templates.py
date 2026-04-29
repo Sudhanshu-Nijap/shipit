@@ -41,13 +41,9 @@ kind: Ingress
 metadata:
   name: {name}-ingress
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls.certresolver: le
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   ingressClassName: traefik
-  tls:
-  - hosts:
-    - {name}.{domain}
   rules:
   - host: {name}.{domain}
     http:
