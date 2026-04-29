@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Shipit{% endblock %}
+
+{% block content %}
+<header class="hero">
+    <h1>Ship your code in seconds</h1>
+    <p>Push your repository. We build and deploy it globally.</p>
+</header>
+
+<div class="card deploy-card">
+    <div class="deploy-tabs">
+        <button class="tab-btn active" onclick="setMode('github')" id="tab-github">GitHub URL</button>
+        <button class="tab-btn" onclick="setMode('zip')" id="tab-zip">Upload .Zip</button>
+    </div>
+    <div class="input-group">
+        <div class="input-wrapper" id="github-input-wrapper">
+            <i class="fa-brands fa-github input-icon"></i>
+            <input id="repo" placeholder="https://github.com/user/repo" autocomplete="off">
+        </div>
+        <div class="input-wrapper hidden" id="zip-input-wrapper">
+            <i class="fa-solid fa-file-zipper input-icon"></i>
+            <input type="file" id="zipfile" accept=".zip" class="file-input">
+        </div>
+        <div class="input-wrapper">
+            <i class="fa-solid fa-folder input-icon"></i>
+            <input id="name" placeholder="Project Name" autocomplete="off">
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="founder">
+            <span>Built by <a href="https://github.com/Sudhanshu-Nijap" target="_blank">Sudhanshu Nijap</a></span>
+        </div>
+        <button id="deployBtn" onclick="deploy()" class="btn-primary">
+            <span id="btnContent">
+                <i id="btnIcon" class="fa-solid fa-rocket"></i>
+                <span id="btnText">Deploy</span>
+            </span>
+        </button>
+    </div>
+</div>
+
+<div class="card console-card">
+    <div class="console-header">
+        <div class="console-title">
+            <i class="fa-solid fa-terminal"></i> Build Logs
+        </div>
+        <span id="statusBadge" class="badge idle">Ready</span>
+    </div>
+    <div class="console-body">
+        <pre id="logs"></pre>
+    </div>
+</div>
+
+<div id="successPanel" class="card result hidden">
+    <div class="result-content">
+        <div class="result-info">
+            <div class="result-icon-wrapper">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="result-text">
+                <h3>Deployment Successful</h3>
+                <a id="liveUrl" href="#" target="_blank" rel="noopener noreferrer" class="result-link"></a>
+                <div class="result-actions" style="margin-top: 12px; display: flex; gap: 8px;">
+                    <button id="redeployHomeBtn" class="action-btn small" onclick="redeployCurrent()">
+                        <i class="fa-solid fa-rotate"></i> Redeploy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button id="copyBtn" class="btn-secondary" onclick="copyUrl()">
+            <i class="fa-solid fa-copy"></i>
+            <span id="copyText">Copy URL</span>
+        </button>
+    </div>
+    <!-- CI/CD Webhook Section -->
+    <div id="webhookSection" class="webhook-info hidden">
+        <div class="webhook-header">
+            <i class="fa-solid fa-bolt"></i>
+            <span>CI/CD Webhook URL</span>
+        </div>
+        <div class="webhook-body">
+            <code id="webhookUrl"></code>
+            <button onclick="copyWebhook()" class="copy-icon-btn" title="Copy Webhook URL">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+        </div>
+        <p class="webhook-hint">Add this URL to your GitHub repo settings to enable automatic deployments on push.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Shipit{% endblock %}
+
+{% block content %}
+<header class="hero">
+    <h1>My Projects</h1>
+    <p>View and manage your previously deployed applications.</p>
+</header>
+
+<div class="card dashboard-card" style="margin-top: 0;">
+    <div class="dashboard-header">
+        <h3>Recent Deployments</h3>
+        <button onclick="loadDeployments()" class="refresh-btn" title="Refresh"><i class="fa-solid fa-rotate-right"></i></button>
+    </div>
+    <div class="dashboard-body">
+        <div id="deploymentsList" class="project-grid">
+            <div class="project-empty">Loading deployments...</div>
+        </div>
+    </div>
+</div>
+
+<div class="card console-card hidden" id="redeployConsole" style="margin-top: 24px;">
+    <div class="console-header">
+        <div class="console-title">
+            <i class="fa-solid fa-terminal"></i> Redeploy Logs
+        </div>
+        <span id="statusBadge" class="badge idle">Ready</span>
+    </div>
+    <div class="console-body">
+        <pre id="logs"></pre>
+    </div>
+</div>
+
+<div id="successPanel" class="card result hidden" style="margin-top: 24px;">
+    <div class="result-content">
+        <div class="result-info">
+            <div class="result-icon-wrapper">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="result-text">
+                <h3>Redeployment Successful</h3>
+                <a id="liveUrl" href="#" target="_blank" rel="noopener noreferrer" class="result-link"></a>
+            </div>
+        </div>
+        <button id="copyBtn" class="btn-secondary" onclick="copyUrl()">
+            <i class="fa-solid fa-copy"></i>
+            <span id="copyText">Copy URL</span>
+        </button>
+    </div>
+    <!-- CI/CD Webhook Section -->
+    <div id="webhookSection" class="webhook-info hidden">
+        <div class="webhook-header">
+            <i class="fa-solid fa-bolt"></i>
+            <span>CI/CD Webhook URL</span>
+        </div>
+        <div class="webhook-body">
+            <code id="webhookUrl"></code>
+            <button onclick="copyWebhook()" class="copy-icon-btn" title="Copy Webhook URL">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+        </div>
+        <p class="webhook-hint">Add this URL to your GitHub repo settings to enable automatic deployments on push.</p>
+    </div>
+</div>
+{% endblock %}

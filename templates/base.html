@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shipit{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="nav-left">
+                <a href="/" style="display:flex; align-items:center; gap:10px; text-decoration: none !important;">
+                    <i class="fa-solid fa-rocket" style="font-size: 24px; color: var(--text-primary);"></i>
+                    <h2 class="brand-name">Shipit</h2>
+                </a>
+                <span class="beta-tag">Beta</span>
+            </div>
+            <div class="nav-right">
+                <a href="/projects" class="nav-link icon-link" title="My Projects" aria-label="My Projects"><i
+                        class="fa-solid fa-table-list"></i>Projects</a>
+                <a href="#" class="nav-link icon-link" title="Documentation" aria-label="Documentation"><i
+                        class="fa-solid fa-book"></i>Documentation</a>
+                <a href="https://github.com/Sudhanshu-Nijap" target="_blank" class="nav-link icon-link" title="GitHub"
+                    aria-label="GitHub"><i class="fa-brands fa-github"></i>GitHub</a>
+                <a href="https://www.linkedin.com/in/sudhanshunijap/" target="_blank" class="nav-link icon-link"
+                    title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i>LinkedIn</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="wrapper">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="/static/app.js"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>
