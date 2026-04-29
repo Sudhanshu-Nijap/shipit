@@ -94,6 +94,9 @@ pip install -r requirements.txt --break-system-packages
 
 # Start in background (Keep alive after logout)
 nohup python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 > output.log 2>&1 &
+
+# View live logs
+tail -f output.log
 ```
 </details>
 
